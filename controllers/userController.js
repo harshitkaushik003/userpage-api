@@ -38,6 +38,30 @@ module.exports = {
         } catch (error) {
             return res.status(200).json({error: error});
         }
+    },
+    update: async (req, res)=>{
+        try {
+            const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {new : true});
+            if(!updatedUser){
+                return res.status(404).json({message: "user not found"});
+            }
+
+            return res.status(200).json({message: "user updated", data: updatedUser});
+        } catch (error) {
+            return res.status(400).json({error: error});
+        }
+    },
+    deleteUser: async (req, res)=>{
+        try {
+            const deletedUser = await User.findByIdAndDelete(req.params.id);
+            if(!deletedUser){
+                return res.status(404).json({message: "user not found"});
+            }
+            return res.status(200).json({message: "user deleted", data: deletedUser});
+        } catch (error) {
+            return res.status(400).json({error: error});
+            
+        }
     }
     
 }
