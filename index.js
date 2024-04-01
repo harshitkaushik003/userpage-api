@@ -1,5 +1,8 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require('cors');
+
+
 dotenv.config();
 
 const db = require('./config/mongoose');
@@ -8,6 +11,7 @@ const db = require('./config/mongoose');
 const port = process.env.PORT; 
 
 const app = express();
+app.use(cors());
 
 app.use(express.urlencoded());
 app.use('/', require('./routes'));

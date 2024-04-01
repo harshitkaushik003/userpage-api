@@ -1,4 +1,6 @@
 const User = require('../models/userSchema');
+const data = require('../heliverse_mock_data.json');
+
 module.exports = {
     create: async (req, res)=>{
         try {
@@ -6,6 +8,21 @@ module.exports = {
             return res.status(200).json({message: "user created successfully", data: user});
         } catch (error) {
             return res.status(400).json({message: `an error occurred -> ${error}`});
+        }
+    },
+    //Controller for populating the database
+    //Note: #FF0000 Imp : 
+    //Please donot run this route since the database is already populated and running this will lead to error that the email should be unique
+    //since it has already added 100 records to the database 
+    addAllData: async(req, res)=>{
+        try {
+            const newData = data.slice(0, 100);
+            for(let i=0; i<newData.length; i++){
+                await User.create(newData[i]);
+            }
+            return res.status(200).json({message: "All Records added"});
+        } catch (error) {
+            return res.status(400).json({error: error.message});
         }
     },
     getUser: async (req, res)=>{
