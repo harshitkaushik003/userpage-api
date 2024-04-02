@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     avatar: {type: String},
     domain: {type: String},
     available: {type: Boolean}
-})
+}, {timestamps: true})
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;

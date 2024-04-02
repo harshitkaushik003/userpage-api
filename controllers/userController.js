@@ -41,7 +41,7 @@ module.exports = {
             if(req.query.available){
                 query.available = req.query.available;
             }
-            const user = await User.find(query);
+            const user = await User.find(query).sort({createdAt: -1});
             return res.status(200).json({data: user, query: query});
 
         } catch (error) {

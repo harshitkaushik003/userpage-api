@@ -9,4 +9,4 @@ router.get('/:id', getUser);
 router.put('/:id', update);
 router.delete('/:id', deleteUser);
 
-module.exports = router;
+module.exports = router;    
