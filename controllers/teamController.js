@@ -27,6 +27,14 @@ module.exports = {
         } catch (error) {
             return res.status(400).json({error: error.message});
         }
+    },
+    getTeam: async (req, res)=>{
+        try {
+            const team = await Team.findById(req.params.id).populate('users');
+            return res.status(200).json({data: team});
+        } catch (error) {
+            return res.status(400).json({error: error.message});
+        }
     }
 }
 
