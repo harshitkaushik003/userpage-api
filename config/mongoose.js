@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGO_URI);
+mongoose.connect("mongodb+srv://kaushikharshit5:78E8Ga5pCehxkSMY@userpage-db.zrh6dih.mongodb.net/?retryWrites=true&w=majority&appName=userpage-db");
 
 const db = mongoose.connection;
 
@@ -10,3 +10,4 @@ db.once('open',function(){
 })
 
 module.exports = db; 
+ 
