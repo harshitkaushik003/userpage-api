@@ -25,29 +25,46 @@ module.exports = {
             return res.status(400).json({error: error.message});
         }
     },
-    getUser: async (req, res)=>{
+    getUser: async (req, res) => {
         try {
             let query = {};
-
-            if(req.query.search){
+            let page = req.query.page ? parseInt(req.query.page) : 1;
+            let limit = req.query.limit ? parseInt(req.query.limit) : 20;
+    
+            if (req.query.search) {
                 query.first_name = req.query.search;
             }
-            if(req.query.domain){
+            if (req.query.domain) {
                 query.domain = req.query.domain;
             }
-            if(req.query.gender){
+            if (req.query.gender) {
                 query.gender = req.query.gender;
             }
-            if(req.query.available){
+            if (req.query.available) {
                 query.available = req.query.available;
             }
-            const user = await User.find(query).sort({createdAt: -1});
-            return res.status(200).json({data: user, query: query});
-
+    
+            const totalUsers = await User.countDocuments(query);
+            const totalPages = Math.ceil(totalUsers / limit);
+            
+            const users = await User.find(query)
+                .sort({ createdAt: -1 })
+                .skip((page - 1) * limit)
+                .limit(limit);
+    
+            return res.status(200).json({
+                data: users,
+                query: query,
+                page: page,
+                limit: limit,
+                totalPages: totalPages
+            });
+    
         } catch (error) {
-            return res.status(400).json({message: `an error occurred -> ${error}`})
+            return res.status(400).json({ message: `An error occurred -> ${error}` });
         }
-    },
+    }
+    ,
     getUserById: async (req, res)=>{
         try {
             let user = await User.findById(req.params.id);
